@@ -87,6 +87,15 @@
         #about .profile-description strong {
             color: #e67e22; /* 親しみやすいオレンジ */
         }
+
+          /* ここに追加 */
+        #about .profile-img {
+            cursor: pointer; /* カーソルを指の形にする */
+            transition: opacity 0.3s;
+        }
+        #about .profile-img:hover {
+            opacity: 0.8; /* マウスを乗せたら少し薄くする */
+        }
         
         /* できること（サービス）エリア */
         #services .service-grid {
@@ -221,8 +230,10 @@
         <section id="about" class="section">
             <div class="container">
                 <div class="profile">
-                    <img src="S__4849668.jpg" alt="プロフィール写真" class="profile-img">
-                    <div>
+                　 <a href="./images/S__4849668.jpg" data-lity>
+                    　<img src="S__4849668.jpg" alt="プロフィール写真" class="profile-img">
+                      </a>
+                   　 <div>
                         <h2 class="profile-name">●●</h2>
                         <p class="profile-title">中小企業向けAI業務改善パートナー</p>
                     </div>
