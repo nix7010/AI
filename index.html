@@ -1,418 +1,333 @@
 <!DOCTYPE html>
-<html lang="ja" data-theme="light">
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AIビジネス改善サービス - 中小企業の業務効率化をサポート</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中小企業向けAI業務改善パートナー</title>
+<style>
+/* 基本スタイル */
+body {
+font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+line-height: 1.8;
+color: #333;
+margin: 0;
+background-color: #f9f9f9;
+}
+.container {
+max-width: 900px;
+margin: 0 auto;
+padding: 0 20px;
+}
+
+/* ヘッダー・ヒーローセクション */
+.hero {
+background-color: #4a90e2; /* 信頼感のある青 */
+background-image: linear-gradient(rgba(74, 144, 226, 0.8), rgba(74, 144, 226, 0.8)), url('https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=1887&auto=format&fit=crop'); /* ダミーの背景画像 */
+background-size: cover;
+background-position: center;
+color: white;
+padding: 100px 20px;
+text-align: center;
+}
+.hero h1 {
+font-size: 2.5rem;
+font-weight: 900;
+margin: 0 0 20px 0;
+line-height: 1.4;
+}
+.hero p {
+font-size: 1.1rem;
+font-weight: 500;
+}
+
+/* セクション共通スタイル */
+.section {
+padding: 60px 0;
+}
+.section-title {
+text-align: center;
+font-size: 2rem;
+margin-bottom: 40px;
+font-weight: 700;
+}
+
+/* 自己紹介エリア */
+#about {
+background-color: #ffffff;
+text-align: center;
+}
+#about .profile {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 20px;
+}
+#about .profile-img {
+width: 150px;
+height: 150px;
+border-radius: 50%;
+object-fit: cover;
+background-color: #ccc; /* ダミー画像の背景色 */
+}
+#about .profile-name {
+font-size: 1.5rem;
+font-weight: 700;
+margin: 0;
+}
+#about .profile-title {
+font-size: 1rem;
+color: #555;
+margin: 0;
+}
+#about .profile-description {
+max-width: 600px;
+margin: 20px auto 0 auto;
+text-align: left;
+}
+#about .profile-description strong {
+color: #e67e22; /* 親しみやすいオレンジ */
+}
+
+/* ここに追加 */
+#about .profile-img {
+cursor: pointer; /* カーソルを指の形にする */
+transition: opacity 0.3s;
+}
+#about .profile-img:hover {
+opacity: 0.8; /* マウスを乗せたら少し薄くする */
+}
+
+/* できること（サービス）エリア */
+#services .service-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 20px;
+}
+.service-card {
+background-color: #fff;
+border: 1px solid #ddd;
+border-radius: 8px;
+padding: 30px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+transition: transform 0.3s, box-shadow 0.3s;
+}
+.service-card:hover {
+transform: translateY(-5px);
+box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+.service-card h3 {
+font-size: 1.2rem;
+margin-top: 0;
+color: #4a90e2;
+}
+
+/* 想定クライアント像 */
+#target {
+background-color: #eef5ff; /* 薄い青背景 */
+}
+#target ul {
+background-color: #fff;
+list-style: none;
+padding: 30px;
+border-radius: 8px;
+max-width: 700px;
+margin: 0 auto;
+box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+#target li {
+padding-left: 1.5em;
+text-indent: -1.5em;
+}
+#target li::before {
+content: '📌';
+margin-right: 0.5em;
+}
+
+/* 料金・相談案内 */
+#contact {
+text-align: center;
+}
+.price-info {
+background-color: #fff;
+padding: 30px;
+border-radius: 8px;
+max-width: 600px;
+margin: 0 auto 40px auto;
+box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+.price-info dt {
+font-weight: bold;
+font-size: 1.2rem;
+}
+.price-info dd {
+margin-left: 0;
+margin-bottom: 1em;
+font-size: 1.1rem;
+}
+.contact-btn {
+display: inline-block;
+background-color: #e67e22; /* 目立つオレンジ */
+color: white;
+padding: 15px 40px;
+font-size: 1.2rem;
+font-weight: 700;
+text-decoration: none;
+border-radius: 50px;
+transition: background-color 0.3s, transform 0.3s;
+}
+.contact-btn:hover {
+background-color: #d35400;
+transform: scale(1.05);
+}
+
+/* フッター */
+footer {
+background-color: #333;
+color: white;
+text-align: center;
+padding: 20px 0;
+font-size: 0.9rem;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+.hero h1 {
+font-size: 2rem;
+}
+.section-title {
+font-size: 1.8rem;
+}
+}
+
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.css" integrity="sha512-UiL மெ/KqAJa/P/v83WHIwtImBvYUI3lIg+nt2T1OpeJCKTqA60pL+J2OrS2uQgBYQ/JoVRG6BdtKxVja1INQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="bg-base-100">
-    <!-- ヒーローセクション -->
-    <section class="hero min-h-screen bg-gradient-to-br from-primary/10 to-secondary/10">
-        <div class="hero-content text-center">
-            <div class="max-w-4xl">
-                <h1 class="text-5xl font-bold mb-6 text-primary">
-                    AIで変わる、あなたのビジネス
-                </h1>
-                <p class="text-xl mb-8 text-base-content/80">
-                    労働力不足や非効率な業務にお悩みですか？<br>
-                    最新のAIテクノロジーを活用して、あなたのビジネスを次のレベルへ導きます。<br>
-                    ChatGPT、Notion、Zapierをはじめとする幅広いAIツールで、<br>
-                    業務効率化と生産性向上を実現しましょう。
-                </p>
-                <button class="btn btn-primary btn-lg mr-4" onclick="scrollToSection('consultation')">
-                    無料相談を申し込む
-                </button>
-                <button class="btn btn-outline btn-lg" onclick="scrollToSection('services')">
-                    サービス詳細を見る
-                </button>
-            </div>
-        </div>
-    </section>
+<body>
 
-    <!-- サービス概要セクション -->
-    <section id="services" class="py-20 bg-base-200">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4 text-primary">できること</h2>
-                <p class="text-lg text-base-content/70">
-                    あなたのビジネスに合わせた包括的なAIソリューションを提供します
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- サービス項目1 -->
-                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                    <div class="card-body text-center">
-                        <div class="mx-auto mb-4 w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
-                            <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="card-title text-lg mb-2">無駄と依存関係の可視化</h3>
-                        <p class="text-sm text-base-content/70">
-                            現在の業務プロセスを分析し、非効率な部分や改善点を明確に可視化します
-                        </p>
-                    </div>
-                </div>
+<header class="hero">
+<div class="container">
+<h1>ややこしい作業、ぜんぶ<br>“AI相棒”に渡しませんか？</h1>
+<p>AI初心者の中小企業向けに、現場目線で業務改善を支援します。</p>
+<p align="center">
+<a href="https://forms.gle/ezEHuCpoqEkm8KPj6"
+style="display:inline-block;
+background:#ff7a00;
+color:#fff;
+padding:1em 2em;
+margin:1.5rem 0;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;">
+まずは無料で相談してみる
+</a>
+</p>
 
-                <!-- サービス項目2 -->
-                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                    <div class="card-body text-center">
-                        <div class="mx-auto mb-4 w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center">
-                            <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="card-title text-lg mb-2">ChatGPTプロンプトデザイン</h3>
-                        <p class="text-sm text-base-content/70">
-                            あなたの業務に最適化されたChatGPTプロンプトを設計・提供します
-                        </p>
-                    </div>
-                </div>
+</div>
+</header>
 
-                <!-- サービス項目3 -->
-                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                    <div class="card-body text-center">
-                        <div class="mx-auto mb-4 w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                            <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="card-title text-lg mb-2">自動化サポート</h3>
-                        <p class="text-sm text-base-content/70">
-                            NotionとZapierを活用した業務自動化システムの構築をサポートします
-                        </p>
-                    </div>
-                </div>
+<main>
+<section id="about" class="section">
+<div class="container">
+<div class="profile">
+　 <a href="5071.jpg" data-lity>
+　<img src="5071.jpg" alt="プロフィール写真" class="profile-img">
+</a>
+　 <div>
+<h2 class="profile-name">●●</h2>
+<p class="profile-title">中小企業・個人事業主向けAI業務改善パートナー</p>
+</div>
+</div>
+<div class="profile-description">
+<p>
+前職では<strong>不動産、物流、製造</strong>などの様々な現場に関わってきました。そこで多くの企業が抱える「人手不足」や「業務の非効率」を目の当たりにし、テクノロジーで何か手助けができないかと考えるようになりました。
+</p>
+<p>
+現在はそれらの業界に特化し、AI（ChatGPT、Notion、Zapierなど）を活用して、日々の<strong>“めんどくさい業務”の自動化や業務改善</strong>をサポートしています。　　　　　「この人、うちの業界わかってくれそうだな」と思っていただける、現場に寄り添ったパートナーを目指しています。
+</p>
+<p>
+中小企業はもちろんのこと、<strong>個人事業主やフリーランスの方々にとっても、業務の効率化や時間の創出は大きな課題</strong>だと感じています。そうした方々にとっても、身近に相談できる存在を目指しています。
+</p>
+</div>
+</div>
+</section>
 
-                <!-- サービス項目4 -->
-                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
-                    <div class="card-body text-center">
-                        <div class="mx-auto mb-4 w-16 h-16 bg-info/10 rounded-full flex items-center justify-center">
-                            <svg class="w-8 h-8 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                            </svg>
-                        </div>
-                        <h3 class="card-title text-lg mb-2">AI実装トレーニング</h3>
-                        <p class="text-sm text-base-content/70">
-                            組織内でのAI活用を促進するための実践的なトレーニングを提供します
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="services" class="section">
+<div class="container">
+<h2 class="section-title">できること</h2>
+<div class="service-grid">
+<div class="service-card">
+<h3>✅ 現場業務のムダ・属人化の可視化</h3>
+<p>ヒアリングや業務フローの分析を通じて、どこに改善の余地があるのか、業務が特定の人に依存していないかを明らかにします。</p>
+</div>
+<div class="service-card">
+<h3>✅ ChatGPTを使ったプロンプト設計とマニュアル化</h3>
+<p>メール作成、議事録要約、アイデア出しなど、用途に合わせた最適な指示（プロンプト）を作成し、誰でも使えるようにマニュアル化します。</p>
+</div>
+<div class="service-card">
+<h3>✅ Notion、Zapierなどの導入支援と自動化サポート</h3>
+<p>情報共有ツール（Notion）や連携ツール（Zapier）の導入から、繰り返し作業を自動化する仕組みづくりまで、一貫してサポートします。</p>
+</div>
+<div class="service-card">
+<h3>✅ AI導入に向けた社内説明・研修の実施サポート</h3>
+<p>「AIって何？」という基礎から、具体的な活用方法まで。従業員の皆さまの不安を解消し、スムーズな導入を後押しする研修を行います。</p>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- 料金例セクション -->
-    <section id="pricing" class="py-20 bg-base-100">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4 text-primary">料金例</h2>
-                <p class="text-lg text-base-content/70">
-                    お客様のニーズに合わせた柔軟な料金プランをご用意しています
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                <!-- ベーシックプラン -->
-                <div class="card bg-base-100 shadow-xl border border-base-300">
-                    <div class="card-body text-center">
-                        <h3 class="card-title text-2xl mb-4 justify-center text-primary">ベーシック</h3>
-                        <div class="mb-6">
-                            <span class="text-4xl font-bold text-primary">5万円</span>
-                            <span class="text-base-content/70">〜</span>
-                        </div>
-                        <ul class="text-left space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                業務プロセス分析
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                基本的なプロンプト設計
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                導入サポート（1ヶ月）
-                            </li>
-                        </ul>
-                        <button class="btn btn-outline btn-primary w-full">詳細を見る</button>
-                    </div>
-                </div>
+<section id="target" class="section">
+<div class="container">
+<h2 class="section-title">こんな企業さまにピッタリです</h2>
+<p align="center">
+<a href="https://forms.gle/ezEHuCpoqEkm8KPj6"
+style="display:inline-block;
+background:#ff7a00;
+color:#fff;
+padding:1em 2em;
+margin:1.5rem 0;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;">
+まずは無料で相談してみる
+</a>
+</p>
 
-                <!-- スタンダードプラン -->
-                <div class="card bg-primary text-primary-content shadow-xl border-2 border-primary">
-                    <div class="card-body text-center">
-                        <div class="badge badge-secondary mb-2">人気</div>
-                        <h3 class="card-title text-2xl mb-4 justify-center">スタンダード</h3>
-                        <div class="mb-6">
-                            <span class="text-4xl font-bold">10万円</span>
-                            <span class="opacity-70">〜</span>
-                        </div>
-                        <ul class="text-left space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                包括的な業務分析
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                カスタムプロンプト開発
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                自動化システム構築
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-secondary mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                継続サポート（3ヶ月）
-                            </li>
-                        </ul>
-                        <button class="btn btn-secondary w-full">詳細を見る</button>
-                    </div>
-                </div>
+<ul>
+<li>社員数10～50名程度の中小企業様</li>
+<li>業務でムダや手戻りが多いと感じている</li>
+<li>でもAIって難しそうで、社内に詳しい人がいない…</li>
+<li>チャットボットや自動化に興味が出てきたけど、何から始めれば良いか迷っている</li>
+</ul>
+</div>
+</section>
 
-                <!-- プレミアムプラン -->
-                <div class="card bg-base-100 shadow-xl border border-base-300">
-                    <div class="card-body text-center">
-                        <h3 class="card-title text-2xl mb-4 justify-center text-primary">プレミアム</h3>
-                        <div class="mb-6">
-                            <span class="text-4xl font-bold text-primary">15万円</span>
-                            <span class="text-base-content/70">〜</span>
-                        </div>
-                        <ul class="text-left space-y-2 mb-6">
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                全社的なAI戦略策定
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                高度な自動化システム
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                チーム向けトレーニング
-                            </li>
-                            <li class="flex items-center">
-                                <svg class="w-5 h-5 text-success mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                                長期サポート（6ヶ月）
-                            </li>
-                        </ul>
-                        <button class="btn btn-outline btn-primary w-full">詳細を見る</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="contact" class="section">
+<div class="container">
+<h2 class="section-title">料金・ご相談</h2>
+<dl class="price-info">
+<div>
+<dt>初回相談</dt>
+<dd>無料（30分程度、オンライン可）</dd>
+</div>
+<div>
+<dt>継続サポート</dt>
+<dd>月額 50,000円〜（税別、サポート内容により調整）</dd>
+</div>
+</dl>
+<p>まずはお悩みを伺い、何ができそうか一緒に考えるだけでも大歓迎です！<br>お気軽にご連絡ください。</p>
+<a href="https://forms.gle/ezEHuCpoqEkm8KPj6" target="_blank" rel="noopener noreferrer" class="contact-btn">まずは無料で相談してみる</a>
+</div>
+</section>
+</main>
 
-    <!-- 無料相談セクション -->
-    <section id="consultation" class="py-20 bg-gradient-to-br from-secondary/10 to-accent/10">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-4xl font-bold mb-6 text-primary">まずは気軽にお話ししませんか？</h2>
-                <p class="text-xl mb-8 text-base-content/80">
-                    「AIって難しそう...」「うちの会社でも使えるの？」<br>
-                    そんな疑問や不安、なんでもお聞かせください！<br>
-                    コーヒーを飲みながら、リラックスした雰囲気でお話しましょう。
-                </p>
-                
-                <div class="card bg-base-100 shadow-xl max-w-2xl mx-auto mb-8">
-                    <div class="card-body">
-                        <h3 class="card-title text-2xl mb-4 justify-center text-secondary">無料相談の詳細</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <span><strong>時間：</strong>30分〜1時間</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                <span><strong>場所：</strong>オンライン・対面OK</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
-                                </svg>
-                                <span><strong>料金：</strong>完全無料</span>
-                            </div>
-                            <div class="flex items-center">
-                                <svg class="w-6 h-6 text-primary mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>
-                                <span><strong>内容：</strong>何でもお気軽に</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<footer>
+<div class="container">
+<p>&copy; 2025 ●● All Rights Reserved.</p>
+</div>
+</footer>
 
-                <div class="card bg-base-100 shadow-xl max-w-2xl mx-auto">
-                    <div class="card-body">
-                        <h3 class="card-title text-xl mb-4 justify-center">お申し込みフォーム</h3>
-                        <form id="consultationForm" class="space-y-4">
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">お名前 *</span>
-                                </label>
-                                <input type="text" name="name" class="input input-bordered" required>
-                            </div>
-                            
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">メールアドレス *</span>
-                                </label>
-                                <input type="email" name="email" class="input input-bordered" required>
-                            </div>
-                            
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">会社名・屋号</span>
-                                </label>
-                                <input type="text" name="company" class="input input-bordered">
-                            </div>
-                            
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">業種</span>
-                                </label>
-                                <select name="industry" class="select select-bordered">
-                                    <option value="">選択してください</option>
-                                    <option value="real-estate">不動産</option>
-                                    <option value="logistics">物流</option>
-                                    <option value="manufacturing">製造業</option>
-                                    <option value="retail">小売業</option>
-                                    <option value="service">サービス業</option>
-                                    <option value="other">その他</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">相談したい内容</span>
-                                </label>
-                                <textarea name="message" class="textarea textarea-bordered h-24" placeholder="どんなことでもお気軽にお書きください"></textarea>
-                            </div>
-                            
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">希望する相談方法</span>
-                                </label>
-                                <div class="flex gap-4">
-                                    <label class="label cursor-pointer">
-                                        <input type="radio" name="method" value="online" class="radio radio-primary" checked>
-                                        <span class="label-text ml-2">オンライン</span>
-                                    </label>
-                                    <label class="label cursor-pointer">
-                                        <input type="radio" name="method" value="offline" class="radio radio-primary">
-                                        <span class="label-text ml-2">対面</span>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary btn-lg w-full">
-                                無料相談を申し込む
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- プロフィールセクション -->
-    <section class="py-20 bg-base-200">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold mb-4 text-primary">サービス提供者について</h2>
-                </div>
-                
-                <div class="card lg:card-side bg-base-100 shadow-xl">
-                    <div class="card-body">
-                        <h3 class="card-title text-2xl mb-4 text-primary">実践的なAIソリューションパートナー</h3>
-                        <p class="text-base-content/80 mb-4">
-                            不動産、物流、製造業など多様な業界での実務経験を通じて、労働力不足や業務の非効率性といった現場の課題を深く理解しています。
-                        </p>
-                        <p class="text-base-content/80 mb-4">
-                            ChatGPT、Notion、Zapierをはじめとする最新のAIテクノロジーを活用し、中小企業や個人事業主の皆様が抱える課題を解決するための実践的なソリューションを提供しています。
-                        </p>
-                        <p class="text-base-content/80 mb-6">
-                            技術的な専門知識だけでなく、現場での実体験に基づいたアドバイスで、あなたのビジネスパートナーとして寄り添います。
-                        </p>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div class="stat bg-primary/10 rounded-lg">
-                                <div class="stat-title text-primary">対応業界</div>
-                                <div class="stat-value text-2xl text-primary">多業種</div>
-                                <div class="stat-desc">実務経験豊富</div>
-                            </div>
-                            <div class="stat bg-secondary/10 rounded-lg">
-                                <div class="stat-title text-secondary">専門分野</div>
-                                <div class="stat-value text-2xl text-secondary">AI活用</div>
-                                <div class="stat-desc">業務効率化</div>
-                            </div>
-                            <div class="stat bg-accent/10 rounded-lg">
-                                <div class="stat-title text-accent">サポート</div>
-                                <div class="stat-value text-2xl text-accent">継続的</div>
-                                <div class="stat-desc">長期パートナー</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- フッター -->
-    <footer class="footer footer-center p-10 bg-base-300 text-base-content">
-        <div>
-            <p class="font-bold text-lg text-primary">AIビジネス改善サービス</p>
-            <p>中小企業の業務効率化をサポートします</p>
-            <p>Copyright © 2025 - All rights reserved</p>
-        </div>
-    </footer>
-
-    <!-- 成功モーダル -->
-    <dialog id="successModal" class="modal">
-        <div class="modal-box">
-            <h3 class="font-bold text-lg text-success">お申し込みありがとうございます！</h3>
-            <p class="py-4">
-                無料相談のお申し込みを受け付けました。<br>
-                24時間以内にご連絡いたします。
-            </p>
-            <div class="modal-action">
-                <button class="btn btn-primary" onclick="closeModal('successModal')">閉じる</button>
-            </div>
-        </div>
-    </dialog>
-
-    <script type="module" src="js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lity/2.4.1/lity.min.js" integrity="sha512-jK5G//AY1YZeB+7I394v5T9f3V3/E/kHhLIT+Oh25nL/b/9Y1ALVmdPA3ljsBBc/KBSfBv//AYNShkftS+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>
