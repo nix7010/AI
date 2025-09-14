@@ -111,6 +111,7 @@
             .example-card{ grid-template-columns: 1fr; text-align: center; }
         }
     </style>
+<style>@media (max-width:768px){#gformIframe{height:60vh !important;}}</style>
 </head>
 <body>
 <header class="header">
@@ -218,7 +219,7 @@
     <section class="section profile" id="profile">
         <div class="profile-image">
             <!-- 顔写真に差し替えてください -->
-            <img src="MY selfy.jpg" alt="コンサルタントの顔写真" />
+            <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=250&h=250&auto=format&fit=crop" alt="コンサルタントの顔写真" />
         </div>
         <div class="profile-text">
             <h2 class="section-title" style="text-align:left;">ご挨拶</h2>
@@ -312,16 +313,73 @@
 </div>
 
 <script>
-    // --- Global function to avoid ReferenceError from inline onclick ---
+    // === Config ===
+    var FORM_DIRECT_URL = 'https://forms.gle/kYNQD6itFuARB5th8';
+    var FORM_EMBED_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdR_fK5g-q0Zg1oqyupwXZYmGzAqWp-oCcClxPe-aOZesflQQ/viewform?embedded=true';
+
+    // Googleフォーム 事前入力のエントリID（提供いただいたURLから抽出済み）
+    var PREFILL = {
+        name:  'entry.873810222',     // お名前
+        topic: 'entry.1784100519',    // 相談区分/件名
+        time:  'entry.1954219580'     // 希望日時
+    };
+
+    // 任意のデフォルト値（URLやdata属性が無いときに使用）
+    var DEFAULT_PREFILL_NAME = '';
+
+    // === Helpers ===
+    function getPrefillSuffix(triggerEl){
+        try{
+            var url = new URL(location.href);
+            var sp = url.searchParams;
+            var name  = (triggerEl && triggerEl.dataset && triggerEl.dataset.prefillName)  || sp.get('prefill_name')  || sp.get('name')  || localStorage.getItem('prefill_name')  || DEFAULT_PREFILL_NAME || '';
+            var topic = (triggerEl && triggerEl.dataset && triggerEl.dataset.prefillTopic) || sp.get('prefill_topic') || sp.get('topic') || '';
+            var time  = (triggerEl && triggerEl.dataset && triggerEl.dataset.prefillTime)  || sp.get('prefill_time')  || sp.get('time')  || '';
+            var params = new URLSearchParams();
+            if (PREFILL.name && name)  params.append(PREFILL.name,  name);
+            if (PREFILL.topic && topic) params.append(PREFILL.topic, topic);
+            if (PREFILL.time && time)  params.append(PREFILL.time,  time);
+            var s = params.toString();
+            return s ? ('&' + s) : '';
+        } catch(e){
+            return '';
+        }
+    }
+
+    function bindIframeAutoClose(iframe, modal, modalContent){
+        if (!iframe || iframe.dataset.bound === '1') return;
+        iframe.dataset.bound = '1';
+        iframe.dataset.loads = '0';
+        iframe.addEventListener('load', function(){
+            var loads = parseInt(iframe.dataset.loads || '0', 10) + 1;
+            iframe.dataset.loads = String(loads);
+            // 1回目: フォーム表示, 2回目: 送信後のサンクス画面表示（推定）
+            if (loads >= 2){
+                setTimeout(function(){
+                    if (typeof window.closeModal === 'function') {
+                        window.closeModal();
+                    } else if (modal && modalContent){
+                        modalContent.style.transform = 'scale(0.9)';
+                        modalContent.style.opacity = '0';
+                        setTimeout(function(){ modal.style.display = 'none'; }, 300);
+                    }
+                }, 800);
+            }
+        });
+    }
+
+    // --- Global function (used by inline onclick) ---
     function openContactForm(event) {
         if (event) event.preventDefault();
         var modal = document.getElementById('contactModal');
         var modalContent = document.getElementById('modalContent');
         var iframe = document.getElementById('gformIframe');
-        var FORM_DIRECT_URL = 'https://forms.gle/kYNQD6itFuARB5th8';
-        var FORM_EMBED_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdR_fK5g-q0Zg1oqyupwXZYmGzAqWp-oCcClxPe-aOZesflQQ/viewform?embedded=true';
-        if (iframe && !iframe.src) {
-            iframe.src = FORM_EMBED_URL || FORM_DIRECT_URL;
+        if (iframe){
+            // プレフィルを付与して毎回リロード
+            var suffix = getPrefillSuffix(event ? event.currentTarget : null);
+            iframe.src = FORM_EMBED_URL + suffix;
+            iframe.dataset.loads = '0';
+            bindIframeAutoClose(iframe, modal, modalContent);
         }
         if (modal && modalContent) {
             modal.style.display = 'flex';
@@ -330,51 +388,82 @@
         return false; // prevent default navigation
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function(){
         // section reveal
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        var observer = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){ if (entry.isIntersecting) entry.target.classList.add('visible'); });
         }, { threshold: 0.1 });
-        document.querySelectorAll('.section').forEach(section => observer.observe(section));
+        document.querySelectorAll('.section').forEach(function(section){ observer.observe(section); });
 
         // number animation
-        const animateNumber = (el) => {
-            const target = +el.dataset.target; const duration = 2000; const stepTime = 20; let current = 0;
-            const steps = duration / stepTime; const increment = target / steps; const numberContainer = el.querySelector('.number-container');
-            const timer = setInterval(() => { current += increment; if (current >= target) { clearInterval(timer); current = target; } numberContainer.textContent = Math.floor(current); }, stepTime);
-        };
-        const numberObserver = new IntersectionObserver((entries, ob) => {
-            entries.forEach(entry => { if (entry.isIntersecting) { animateNumber(entry.target); ob.unobserve(entry.target); } });
+        function animateNumber(el){
+            var target = +el.dataset.target; var duration = 2000; var stepTime = 20; var current = 0;
+            var steps = duration / stepTime; var increment = target / steps; var numberContainer = el.querySelector('.number-container');
+            var timer = setInterval(function(){ current += increment; if (current >= target){ clearInterval(timer); current = target; } numberContainer.textContent = Math.floor(current); }, stepTime);
+        }
+        var numberObserver = new IntersectionObserver(function(entries, ob){
+            entries.forEach(function(entry){ if (entry.isIntersecting){ animateNumber(entry.target); ob.unobserve(entry.target); } });
         }, { threshold: 0.5 });
-        document.querySelectorAll('.example-result').forEach(el => numberObserver.observe(el));
+        document.querySelectorAll('.example-result').forEach(function(el){ numberObserver.observe(el); });
 
         // modal
-        const modal = document.getElementById('contactModal');
-        const modalContent = document.getElementById('modalContent');
-        const closeModalBtn = document.getElementById('closeModal');
-        function closeModal() {
+        var modal = document.getElementById('contactModal');
+        var modalContent = document.getElementById('modalContent');
+        var closeModalBtn = document.getElementById('closeModal');
+        function closeModal(){
             modalContent.style.transform = 'scale(0.9)';
             modalContent.style.opacity = '0';
-            setTimeout(() => { modal.style.display = 'none'; }, 300);
+            setTimeout(function(){ modal.style.display = 'none'; }, 300);
         }
-        window.closeModal = closeModal; // optional: expose for debugging/tests
+        window.closeModal = closeModal;
         closeModalBtn.onclick = closeModal;
-        modal.onclick = (e) => { if (e.target === modal) closeModal(); };
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+        modal.onclick = function(e){ if (e.target === modal) closeModal(); };
+        document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
 
-        // --- Lightweight smoke tests (run only with #test in URL) ---
+        // --- Smoke & behavior tests (run with #test in URL) ---
         function runSmokeTests(){
             try {
                 console.assert(typeof window.openContactForm === 'function', 'openContactForm should be defined');
                 console.assert(document.getElementById('gformIframe'), 'gformIframe should exist');
                 console.assert(document.getElementById('contactModal'), 'contactModal should exist');
-                console.log('[SmokeTest] DOM elements present');
-                // Do not auto-open modal unless explicitly testing
+                console.log('[SmokeTest] DOM OK');
+
+                // Test: prefill suffix building with dataset
+                var dummy = document.createElement('a');
+                dummy.dataset.prefillName = '山田太郎';
+                dummy.dataset.prefillTopic = 'AI相談';
+                dummy.dataset.prefillTime = '2025-09-14（日） 11:37–12:37';
+                var suffix = getPrefillSuffix(dummy);
+                console.assert(suffix.includes('entry.873810222'), 'name id should be present');
+                console.assert(suffix.includes('entry.1784100519'), 'topic id should be present');
+                console.assert(suffix.includes('entry.1954219580'), 'time id should be present');
+
+                // Test: openContactForm sets iframe src
+                var iframe = document.getElementById('gformIframe');
+                iframe.src = '';
+                openContactForm();
+                console.assert(iframe.src && iframe.src.indexOf('docs.google.com/forms') !== -1, 'iframe src should be set to Google Forms');
+
+                // Test: auto close after two loads (simulate)
+                setTimeout(function(){
+                    iframe.dispatchEvent(new Event('load'));
+                    iframe.dispatchEvent(new Event('load'));
+                    setTimeout(function(){
+                        console.assert(modal.style.display === 'none', 'Modal should auto-close after two loads');
+                        console.log('[SmokeTest] Auto-close simulated OK');
+                    }, 1400);
+                }, 200);
+
+                // Test: mobile CSS rule injected
+                var hasRule = Array.from(document.styleSheets).some(function(ss){
+                    try { return Array.from(ss.cssRules || []).some(function(r){ return (r.cssText || '').indexOf('#gformIframe') !== -1; }); } catch(e){ return false; }
+                });
+                console.assert(hasRule, 'Mobile 60vh rule should be present');
             } catch (err) {
                 console.error('[SmokeTest] failed:', err);
             }
         }
-        if (location.hash.includes('test')) runSmokeTests();
+        if (location.hash.indexOf('test') !== -1) runSmokeTests();
     });
 </script>
 </body>
